@@ -1,23 +1,10 @@
 # 💰 Gestor de Gastos Personales — MVP
 
-[![Demo](https://img.shields.io/badge/🌐_Demo_Web-Abrir-blue)](https://TU_USUARIO.github.io/TU_REPO/)
+[![Demo](https://img.shields.io/badge/🌐_Demo_Web-Abrir-blue)](https://miasturs.github.io/gastos/)
 
 Aplicación web progresiva (PWA) para gestionar gastos personales. Funciona 100% en el navegador, sin servidor, sin instalación, sin compilación.
 
 ## 🚀 Cómo usarla
-
-### 1. Subir el repositorio
-
-1. Crea un repositorio en https://github.com/new llamado `expense-tracker-mvp`
-2. Sube estas carpetas y archivos (arrastrándolos desde la web de GitHub o con GitHub Desktop)
-3. Ve a **Settings → Pages**
-4. En **Source**, selecciona **Deploy from a branch**
-5. En **Branch**, elige `main` y carpeta `/ (root)` → **Save**
-
-En 1–2 minutos tu app estará en:
-`https://TU_USUARIO.github.io/expense-tracker-mvp/`
-
-### 2. Instalar en tu dispositivo (opcional)
 
 Al abrir la URL en Chrome/Edge/Safari, aparecerá un botón **"Instalar"** en la barra o en el menú. Al instalarla, queda como app nativa con su propio ícono, sin necesitar APK.
 
