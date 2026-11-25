@@ -25,16 +25,6 @@ MVP de gestión de gastos personales con **SQLite cifrado**, **Firebase Auth**, 
 - Flutter ≥ 3.16 (`flutter --version`)
 - Android Studio / Xcode
 
-### Pasos
-
-```bash
-git clone https://github.com/TU_USUARIO/expense_mvp.git
-cd expense_mvp
-flutter pub get
-flutter run
-```
-
-La app arranca **en modo demo sin Firebase** (auth local + BD local, sync simulado).
 
 ### Configurar Firebase (recomendado para defensa)
 
@@ -145,14 +135,6 @@ Total: **≥ 18 commits** ✅
 - **Validación de inputs**: en `Form.validator` (UI) y en `repository` (tipo).
 - **Firestore Rules**: cada usuario solo accede a `/users/{su_uid}/...`.
 
-## 📄 Reporte PDF
-
-Incluye:
-- Diagrama de clases (Mermaid en `/docs/`)
-- Modelo de datos SQL con FK
-- Descripción de mecanismos de seguridad (arriba)
-- Capturas de pantalla
-- Captura del PR mergeado
 
 ## 🧪 Tests
 
