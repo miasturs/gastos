@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="theme-color" content="#6750A4">
+  <meta name="description" content="Gestor de gastos personales - MVP">
+  <title>💰 Gestor de Gastos</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💰</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- AUTH SCREEN -->
+<div id="auth-screen" class="screen">
+  <div class="auth-container">
+    <div class="logo">💰</div>
+    <h1>Gestor de Gastos</h1>
+    <p class="subtitle">Tus finanzas, seguras y privadas</p>
+
+    <form id="auth-form">
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="auth-email" required autocomplete="username">
+      </div>
+      <div class="field">
+        <label>Contraseña</label>
+        <input type="password" id="auth-password" required minlength="6" autocomplete="current-password">
+      </div>
+      <div class="field hidden" id="confirm-field">
+        <label>Confirmar contraseña</label>
+        <input type="password" id="auth-password-confirm" autocomplete="new-password">
+      </div>
+      <div class="error" id="auth-error"></div>
+      <button type="submit" class="btn-primary" id="auth-submit">Entrar</button>
+    </form>
+
+    <div class="auth-toggle">
+      <span id="auth-toggle-text">¿No tienes cuenta?</span>
+      <a href="#" id="auth-toggle-link">Regístrate</a>
+    </div>
+
+    <div class="biometric-container hidden" id="biometric-container">
+      <div class="divider"><span>o</span></div>
+      <button id="biometric-login" class="btn-biometric" type="button">
+        👆 Usar biometría
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN SCREEN -->
+<div id="main-screen" class="screen hidden">
+  <header class="app-header">
+    <div class="header-content">
+      <div>
+        <h1>💰 Gastos</h1>
+        <span class="user-email" id="user-email"></span>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="btn-notif" title="Notificaciones">🔔</button>
+        <button class="icon-btn" id="btn-sync" title="Sincronizar">☁️</button>
+        <button class="icon-btn" id="btn-logout" title="Cerrar sesión">🚪</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <section id="page-home" class="page active">
+      <div class="card total-card">
+        <div class="card-label">Total gastado</div>
+        <div class="total-amount" id="total-amount">$0.00</div>
+        <div class="total-count" id="total-count">0 gastos</div>
+      </div>
+      <div class="quick-actions">
+        <button class="quick-btn" onclick="App.navigate('gastos')">
+          <span>📝</span> Nuevo gasto
+        </button>
+        <button class="quick-btn" onclick="App.navigate('graficos')">
+          <span>📊</span> Ver gráficos
+        </button>
+      </div>
+      <h2>Últimos gastos</h2>
+      <div id="recent-gastos" class="recent-list"></div>
+    </section>
+
+    <section id="page-gastos" class="page">
+      <div class="page-header">
+        <h2>Gastos</h2>
+        <button class="btn-primary btn-sm" id="btn-nuevo-gasto">+ Nuevo</button>
+      </div>
+      <div id="gastos-list" class="list"></div>
+    </section>
+
+    <section id="page-categorias" class="page">
+      <div class="page-header">
+        <h2>Categorías</h2>
+        <button class="btn-primary btn-sm" id="btn-nueva-categoria">+ Nueva</button>
+      </div>
+      <div id="categorias-list" class="list"></div>
+    </section>
+
+    <section id="page-presupuestos" class="page">
+      <div class="page-header">
+        <h2>Presupuestos</h2>
+        <button class="btn-primary btn-sm" id="btn-nuevo-presupuesto">+ Nuevo</button>
+      </div>
+      <div id="presupuestos-list" class="list"></div>
+    </section>
+
+    <section id="page-graficos" class="page">
+      <h2>Gráficos</h2>
+      <div class="chart-container">
+        <canvas id="chart-categorias"></canvas>
+      </div>
+      <div id="chart-legend" class="chart-legend"></div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-page="home"><span class="nav-icon">🏠</span><span class="nav-label">Inicio</span></button>
+    <button class="nav-item" data-page="gastos"><span class="nav-icon">📝</span><span class="nav-label">Gastos</span></button>
+    <button class="nav-item" data-page="categorias"><span class="nav-icon">🏷️</span><span class="nav-label">Categorías</span></button>
+    <button class="nav-item" data-page="presupuestos"><span class="nav-icon">💼</span><span class="nav-label">Presupuestos</span></button>
+    <button class="nav-item" data-page="graficos"><span class="nav-icon">📊</span><span class="nav-label">Gráficos</span></button>
+  </nav>
+</div>
+
+<!-- MODAL genérico -->
+<div id="modal" class="modal hidden">
+  <div class="modal-content" id="modal-content"></div>
+</div>
+
+<!-- Camera modal -->
+<div id="camera-modal" class="modal hidden">
+  <div class="modal-content camera-content">
+    <video id="camera-video" autoplay playsinline></video>
+    <div class="camera-actions">
+      <button class="btn-secondary" id="camera-cancel" type="button">Cancelar</button>
+      <button class="btn-primary" id="camera-capture" type="button">Capturar</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="js/config.js"></script>
+<script src="js/crypto.js"></script>
+<script src="js/db.js"></script>
+<script src="js/notifications.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/categorias.js"></script>
+<script src="js/presupuestos.js"></script>
+<script src="js/gastos.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/sync.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
